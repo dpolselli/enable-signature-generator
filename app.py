@@ -65,8 +65,8 @@ with col_form:
         "+1 628-251-1057",
         "+1 416-628-1921",
         "+44 330 3112 808",
-        "-",
         "Other",
+        "No phone number",
     ]
     tel1 = st.selectbox("Main or office telephone number", tel_options)
     tel1other = ""
@@ -82,6 +82,7 @@ with col_form:
         "120 Spencer St. Melbourne, VIC 3000, Australia",
         "333 George St. Sydney, NSW 2000, Australia",
         "B:HIVE Building, Smales Farm, 74 Taharoto Road, Takapuna Auckland, 0622",
+        "No address",
     ]
     street = st.selectbox("Enable office location closest to you", office_options)
 
@@ -102,7 +103,12 @@ with col_preview:
     st.markdown('<div style="background:white; border-radius:24px; padding:32px; min-height:400px;">', unsafe_allow_html=True)
 
     # Resolve the phone number
-    tel = tel1other if tel1 == "Other" else tel1
+    if tel1 == "Other":
+        tel = tel1other
+    elif tel1 == "No phone number":
+        tel = ""
+    else:
+        tel = tel1
 
     has_data = bool(name and email)
 
@@ -123,7 +129,13 @@ with col_preview:
         # Build the shared signature table HTML
         def sig_table(include_street=False):
             tel2_line = f'<br><span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{tel2}</span>' if tel2 else ""
-            street_line = f'<br><span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{street}</span>' if include_street else ""
+            show_street = include_street and street != "No address"
+            street_line = f'<br><span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{street}</span>' if show_street else ""
+            # Phone + email line: omit bullet if no phone number
+            if tel:
+                contact_line = f'<span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{tel} &bull; </span><a href="mailto:{email}" style="font-family:Arial,sans-serif;font-size:14px;color:#0B8F43;text-decoration:underline;">{email}</a>'
+            else:
+                contact_line = f'<a href="mailto:{email}" style="font-family:Arial,sans-serif;font-size:14px;color:#0B8F43;text-decoration:underline;">{email}</a>'
             return f"""
             <table cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;">
               <tr>
@@ -134,7 +146,7 @@ with col_preview:
                 <td style="vertical-align:middle;font-family:Arial,sans-serif;font-size:14px;color:#000;line-height:1.5;">
                   <span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{name_display}</span><br>
                   <span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{jobtitle}, </span><a href="https://enable.com" style="font-family:Arial,sans-serif;font-size:14px;color:#0B8F43;text-decoration:underline;">Enable</a><br>
-                  <span style="font-family:Arial,sans-serif;font-size:14px;color:#000;">{tel} &bull; </span><a href="mailto:{email}" style="font-family:Arial,sans-serif;font-size:14px;color:#0B8F43;text-decoration:underline;">{email}</a>{tel2_line}{street_line}
+                  {contact_line}{tel2_line}{street_line}
                 </td>
               </tr>
             </table>
