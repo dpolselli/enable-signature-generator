@@ -153,7 +153,7 @@ with col_preview:
             <table cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;">
               <tr>
                 <td style="padding-right:14px;border-right:2px solid #00A74C;vertical-align:middle;">
-                  <a href="https://www.enable.com" target="_blank" style="display:block;"><img src="data:image/png;base64,{LOGO_B64}" width="128" height="31" alt="Enable" style="display:block;border:0;"></a>
+                  <a href="https://www.enable.com" target="_blank" style="display:block;"><img src="data:image/png;base64,{active_logo}" width="128" height="31" alt="Enable" style="display:block;border:0;"></a>
                 </td>
                 <td style="width:14px;"></td>
                 <td style="vertical-align:middle;font-family:Arial,sans-serif;font-size:14px;color:#000;line-height:1.5;">
